@@ -4,11 +4,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { shareReplay, map, catchError } from 'rxjs/operators';
 import { Flight } from '../_models/Flight';
-import { map } from 'rxjs/operators';
 
+import { Md5 } from 'ts-md5/dist/md5';
 
+const CACHE_SIZE = 1;
 @Injectable({ providedIn: 'root' })
 export class SkylegsService {
 
@@ -21,8 +22,20 @@ export class SkylegsService {
         return this.datePipe.transform(date, 'yyyy-MM-dd');
     }
 
-    /** Get flights from start to end dates */
+    /** Get cached flights from start to end dates */
     getFlights(start: Date = null, end: Date = null) {
+        if (!this.flights$) {
+            this.flights$ = this.getFlightsRequest(start, end).pipe(
+                shareReplay(CACHE_SIZE)
+            )
+        }
+
+        return this.flights$;
+    }
+
+
+    /** Get flights from start to end dates  */
+    private getFlightsRequest(start: Date = null, end: Date = null) {
         let params: HttpParams = new HttpParams();
         const startstr = this.transformDate(start);
         const endstr = this.transformDate(end);
@@ -43,7 +56,6 @@ export class SkylegsService {
                     flights.push(flight);
                 });
                 return flights;
-
             })
         );
     }
