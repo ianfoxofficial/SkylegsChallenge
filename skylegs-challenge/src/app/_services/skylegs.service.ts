@@ -23,8 +23,8 @@ export class SkylegsService {
     }
 
     /** Get cached flights from start to end dates */
-    getFlights(start: Date = null, end: Date = null) {
-        if (!this.flights$) {
+    getFlights(start: Date = null, end: Date = null, force: boolean = false) {
+        if (!this.flights$ || force) {
             this.flights$ = this.getFlightsRequest(start, end).pipe(
                 shareReplay(CACHE_SIZE)
             )

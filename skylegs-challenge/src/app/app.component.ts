@@ -30,11 +30,11 @@ export class AppComponent {
 
   }
 
-  refresh() {
+  refresh(forceRefresh = false) {
     this.error = '';
     console.log('refresh');
     this.flights = null;
-    this.flights = this.skylegsService.getFlights(this.start, this.end).pipe(
+    this.flights = this.skylegsService.getFlights(this.start, this.end, forceRefresh).pipe(
       catchError(err => {
         this.error = err;
         return throwError(err);
