@@ -43,6 +43,10 @@
                     </div>
 
                 </form>
+
+                <div *ngIf="error" class="alert alert-danger">
+                    <div><strong>Error:</strong> {{error }}</div>
+                </div>
             </div>
         </div>
     </div>

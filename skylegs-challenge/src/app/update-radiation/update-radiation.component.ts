@@ -23,6 +23,7 @@ export class UpdateRadiationComponent implements OnInit {
 
   });
 
+  error = "";
 
 
   constructor(private formBuilder : FormBuilder, private skylegsService : SkylegsService) { 
@@ -38,6 +39,8 @@ export class UpdateRadiationComponent implements OnInit {
 
     this.skylegsService.updateRadiationValue(values).subscribe(response => {
       console.log(response);
+    }, error => {
+      this.error = error
     });
   }
 }
