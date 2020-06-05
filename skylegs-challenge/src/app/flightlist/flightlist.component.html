@@ -1,4 +1,6 @@
 <div >
+
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -9,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let flight of flights | slice:0:10; let ind=index;">
+        <tr *ngFor="let flight of flights | async | slice:0:10; let ind=index;">
             <td>
                 {{ flight.aircraft.label}}
             </td>

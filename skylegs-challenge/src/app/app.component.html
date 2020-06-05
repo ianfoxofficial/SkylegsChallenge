@@ -1,13 +1,22 @@
 <div class="container-fluid">
-  <app-flightlist [flights]="flights"></app-flightlist>
-
-  <div *ngIf="loading"class="alert alert-info">
-    <div>Flights loading...</div>
+  <div class="mt-2 mb-2">
+    <button class="btn btn-primary" (click)="refresh()">Reload flights</button>
   </div>
 
-  <div *ngIf="error" class="alert alert-danger">
-    <div><strong>Error:</strong> {{error }}</div>
-  </div>
+  <div class="mb-2">
+    <app-flightlist [flights]="flights" *ngIf="flights | async; else loading"></app-flightlist>
+ 
+  <ng-template #loading>
+    <div *ngIf="!error" class="alert alert-info">
+      <div>Flights loading...</div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      <div><strong>Error loading flights:</strong> {{error }}</div>
+    </div>
+  </ng-template>
+</div>
+ 
 
   <app-update-radiation></app-update-radiation>
 

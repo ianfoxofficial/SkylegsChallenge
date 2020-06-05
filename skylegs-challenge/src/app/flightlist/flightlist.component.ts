@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Flight } from '../_models/Flight';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { Flight } from '../_models/Flight';
   styleUrls: ['./flightlist.component.scss']
 })
 export class FlightlistComponent implements OnInit  {
-  @Input() flights:  Flight[];
+  @Input() flights:  Observable<Flight[]>;
   
   ngOnInit(): void {
   }

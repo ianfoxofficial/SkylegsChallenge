@@ -33,6 +33,13 @@ export class SkylegsService {
         return this.flights$;
     }
 
+    refreshFlights(start: Date = null, end: Date = null) {
+        this.flights$ = this.getFlightsRequest(start, end).pipe(
+            shareReplay(CACHE_SIZE)
+        )
+        return this.flights$;
+    }
+
     /** Get flights from start to end dates  */
     private getFlightsRequest(start: Date = null, end: Date = null) {
         let params: HttpParams = new HttpParams();
