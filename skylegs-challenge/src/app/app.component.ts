@@ -22,6 +22,7 @@ export class AppComponent {
     this.loading = true;
     this.skylegsService.getFlights(this.start, this.end)
       .subscribe(flights => {
+        this.error = '';
         this.loading = false;
         this.flights = flights;
 
