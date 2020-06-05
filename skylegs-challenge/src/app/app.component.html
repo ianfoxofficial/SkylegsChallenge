@@ -1,14 +1,19 @@
 <div class="container-fluid">
-  <app-flightlist [flights]="flights">
+  <app-flightlist [flights]="flights"></app-flightlist>
 
-  </app-flightlist>
-
-  <div *ngIf="loading">
-    Flights loading
-
+  <div *ngIf="loading"class="alert alert-info">
+    <div>Flights loading...</div>
   </div>
 
   <div *ngIf="error" class="alert alert-danger">
-    <p><strong>Error:</strong> {{error }}</p>
+    <div><strong>Error:</strong> {{error }}</div>
   </div>
+
+  <app-update-radiation></app-update-radiation>
+
+
+
+
+
+
 </div>

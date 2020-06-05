@@ -1,0 +1,49 @@
+<div class="row justify-content-md-center">
+    <div class="col col-6">
+        <div class="card ">
+            <div class="card-header">
+                Update radiation
+            </div>
+            <div class="card-body">
+                <form (ngSubmit)="onSubmit()" [formGroup]="updateForm">
+                    <div class="form-group">
+                        <label>FlightLog</label>
+                        <input type="text" class="form-control" formControlName="FlightLog" />
+                    </div>
+                    <div class="form-group">
+                        <label>ACFTAIL</label>
+                        <input type="text" class="form-control" formControlName="ACFTAIL" />
+                    </div>
+                    <div class="form-group">
+                        <label>DEP</label>
+                        <input type="text" class="form-control" formControlName="DEP" />
+                    </div>
+                    <div class="form-group">
+                        <label>DEST</label>
+                        <input type="text" class="form-control" formControlName="DEST" />
+                    </div>
+                    <div class="form-group">
+                        <label>STD</label>
+                        <input type="text" class="form-control" formControlName="STD" />
+                    </div>
+                    <div class="form-group">
+                        <label>STA</label>
+                        <input type="text" class="form-control" formControlName="STA" />
+                    </div>
+                    <div class="form-group">
+                        <label>ATCID</label>
+                        <input type="text" class="form-control" formControlName="ATCID" />
+                    </div>
+                    <div class="form-group">
+                        <label>DOSE</label>
+                        <input type="text" class="form-control" formControlName="DOSE" />
+                    </div>
+                    <div class="form-group">
+                        <button class="button" type="submit" class="btn btn-primary">Update radiation</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

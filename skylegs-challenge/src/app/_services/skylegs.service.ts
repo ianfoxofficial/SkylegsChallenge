@@ -33,7 +33,6 @@ export class SkylegsService {
         return this.flights$;
     }
 
-
     /** Get flights from start to end dates  */
     private getFlightsRequest(start: Date = null, end: Date = null) {
         let params: HttpParams = new HttpParams();
@@ -58,5 +57,19 @@ export class SkylegsService {
                 return flights;
             })
         );
+    }
+
+    /** Update Radiation Value */
+    updateRadiationValue(params) {
+
+        let certificatestr = params.ACFTAIL + params.DEP + params.DEST + params.STD + params.ATCID+params.DOSE;
+        let certificate = Md5.hashStr(certificatestr);
+
+        params.Certificate = certificate;
+        let value = [];
+
+        value.push(params);
+
+        return this.http.post(`${environment.apiUrl}/store-radiation`, value);
     }
 }
