@@ -1,0 +1,35 @@
+<div >
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Aircraft</th>
+                <th scope="col">Departure</th>
+                <th scope="col">arrival</th>
+                <th scope="col">Actual Flight time</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let flight of flights | slice:0:10; let ind=index;">
+            <td>
+                {{ flight.aircraft.label}}
+            </td>
+            <td>
+
+                {{flight.departure.label}}
+
+            </td>
+            <td>
+                {{flight.arrival.label}}
+
+            </td>
+            <td>
+                {{flight.actual_flight_time}}
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
