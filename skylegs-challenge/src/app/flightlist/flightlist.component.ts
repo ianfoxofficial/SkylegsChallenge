@@ -14,8 +14,7 @@ export class FlightlistComponent implements OnInit {
   error = '';
   loading = false;
   flights: Observable<Flight[]>;
-  start: Date = new Date('2019-01-01');
-  end: Date = new Date('2019-12-31');
+
 
   constructor(private skylegsService: SkylegsService) {  }
   ngOnInit(): void {
@@ -29,7 +28,7 @@ export class FlightlistComponent implements OnInit {
     this.error = '';
     console.log('refresh');
     this.flights = null;
-    this.flights = this.skylegsService.getFlights(this.start, this.end, forceRefresh).pipe(
+    this.flights = this.skylegsService.getFlights(forceRefresh).pipe(
       catchError(err => {
         this.error = err;
         return throwError(err);

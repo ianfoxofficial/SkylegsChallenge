@@ -7,6 +7,8 @@ export const environment = {
   apiUrl: 'http://api.skylegs-staging.com/v1/flights',
   user: 'skylegs-hiring-2020',
   pass: 'skylegs-hiring-token',
+  start:  new Date('2019-01-01'),
+  end: new Date('2019-12-31')
 };
 
 /*

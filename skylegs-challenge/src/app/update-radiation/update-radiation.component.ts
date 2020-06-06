@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { SkylegsService } from '../_services/skylegs.service';
+import { ActivatedRoute } from '@angular/router';
+import { FlightlistComponent } from '../flightlist/flightlist.component';
+import { Flight } from '../_models/Flight';
 
 @Component({
   selector: 'app-update-radiation',
@@ -9,6 +12,7 @@ import { SkylegsService } from '../_services/skylegs.service';
 })
 export class UpdateRadiationComponent implements OnInit {
 
+  flight : Flight;
 
   updateForm = this.formBuilder.group({
 
@@ -26,10 +30,22 @@ export class UpdateRadiationComponent implements OnInit {
   error = '';
 
 
-  constructor(private formBuilder : FormBuilder, private skylegsService : SkylegsService) { 
+  constructor(private route: ActivatedRoute, private formBuilder : FormBuilder, private skylegsService : SkylegsService) { 
+    
   }
 
   ngOnInit(): void {
+    this.getFlight();
+  }
+
+  getFlight() {
+    
+      const id = +this.route.snapshot.paramMap.get('id');
+      this.skylegsService.getFlight(id).subscribe(flight => {
+        this.flight = flight;
+        console.log(flight);
+      });
+      
   }
 
   onSubmit() {

@@ -9,6 +9,7 @@ import { Flight } from '../_models/Flight';
 
 import { Md5 } from 'ts-md5/dist/md5';
 
+
 const CACHE_SIZE = 1;
 @Injectable({ providedIn: 'root' })
 export class SkylegsService {
@@ -23,9 +24,10 @@ export class SkylegsService {
     }
 
     /** Get cached flights from start to end dates */
-    getFlights(start: Date = null, end: Date = null, force: boolean = false) {
+    getFlights(force: boolean = false) {
+
         if (!this.flights$ || force) {
-            this.flights$ = this.getFlightsRequest(start, end).pipe(
+            this.flights$ = this.getFlightsRequest().pipe(
                 shareReplay(CACHE_SIZE)
             )
         }
@@ -33,25 +35,35 @@ export class SkylegsService {
         return this.flights$;
     }
 
-    refreshFlights(start: Date = null, end: Date = null) {
-        this.flights$ = this.getFlightsRequest(start, end).pipe(
+    getFlight(id: number) {
+        if(!this.flights$) {
+            this.refreshFlights();
+        }
+        return this.flights$.pipe(map(flights => flights.find(flight => flight.id == id)));
+        
+    }
+
+    refreshFlights() {
+        this.flights$ = this.getFlightsRequest().pipe(
             shareReplay(CACHE_SIZE)
         )
         return this.flights$;
     }
 
     /** Get flights from start to end dates  */
-    private getFlightsRequest(start: Date = null, end: Date = null) {
+    private getFlightsRequest() {
         let params: HttpParams = new HttpParams();
-        const startstr = this.transformDate(start);
-        const endstr = this.transformDate(end);
 
-        if (start) {
-            params = params.append("start", startstr);
-        }
-        if (end) {
-            params = params.append("end", endstr);
-        }
+
+
+        const startstr = this.transformDate(environment.start);
+        const endstr = this.transformDate(environment.end);
+
+       
+        params = params.append("start", startstr);
+        
+        params = params.append("end", endstr);
+        
 
         /** get flights, turn into "Flight objects" */
         return this.http.get<Flight[]>(`${environment.apiUrl}/all`, { params: params }).pipe(
