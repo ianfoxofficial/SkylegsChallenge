@@ -1,37 +1,57 @@
-<div >
-
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Aircraft</th>
-                <th scope="col">Departure</th>
-                <th scope="col">arrival</th>
-                <th scope="col">Actual Flight time</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let flight of flights | async | slice:0:10; let ind=index;">
-            <td>
-                {{ flight.aircraft.label}}
-            </td>
-            <td>
-
-                {{flight.departure.label}}
-
-            </td>
-            <td>
-                {{flight.arrival.label}}
-
-            </td>
-            <td>
-                {{flight.actual_flight_time}}
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
+<div class="mb-2">
+    <button class="btn btn-primary" (click)="refresh(true)">Reload flights</button>
 </div>
 
+<div class="mb-2">
 
 
+    <div *ngIf="flights | async; else loading">
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Aircraft</th>
+                    <th scope="col">Departure</th>
+                    <th scope="col">arrival</th>
+                    <th scope="col">Actual Flight time</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let flight of flights | async | slice:0:10; let ind=index;">
+                    <td>
+                        {{ flight.aircraft.label}}
+                    </td>
+                    <td>
+
+                        {{flight.departure.label}}
+
+                    </td>
+                    <td>
+                        {{flight.arrival.label}}
+
+                    </td>
+                    <td>
+                        {{flight.actual_flight_time}}
+                    </td>
+                    <td>
+                        <a routerLink="/flight/{{flight.id}}">
+                            Detail
+                        </a>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #loading>
+        <div *ngIf="!error" class="alert alert-info">
+            <div>Flights loading...</div>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger">
+            <div><strong>Error loading flights:</strong> {{error }}</div>
+        </div>
+    </ng-template>
+</div>

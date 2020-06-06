@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Flight } from '../_models/Flight';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { SkylegsService } from '../_services/skylegs.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Component({
@@ -8,10 +10,31 @@ import { Observable } from 'rxjs';
   templateUrl: './flightlist.component.html',
   styleUrls: ['./flightlist.component.scss']
 })
-export class FlightlistComponent implements OnInit  {
-  @Input() flights:  Observable<Flight[]>;
-  
+export class FlightlistComponent implements OnInit {
+  error = '';
+  loading = false;
+  flights: Observable<Flight[]>;
+  start: Date = new Date('2019-01-01');
+  end: Date = new Date('2019-12-31');
+
+  constructor(private skylegsService: SkylegsService) {  }
   ngOnInit(): void {
+    this.refresh();
   }
 
+  /** Load items.
+   * @param forceRefresh boolean
+   */
+  refresh(forceRefresh = false) {
+    this.error = '';
+    console.log('refresh');
+    this.flights = null;
+    this.flights = this.skylegsService.getFlights(this.start, this.end, forceRefresh).pipe(
+      catchError(err => {
+        this.error = err;
+        return throwError(err);
+      }));
+
+
+  }
 }
