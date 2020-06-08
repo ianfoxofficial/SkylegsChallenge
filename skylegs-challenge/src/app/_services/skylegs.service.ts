@@ -35,14 +35,16 @@ export class SkylegsService {
         return this.flights$;
     }
 
+    /** Get single flight based on id */
     getFlight(id: number) {
-        if(!this.flights$) {
+        if (!this.flights$) {
             this.refreshFlights();
         }
         return this.flights$.pipe(map(flights => flights.find(flight => flight.id == id)));
-        
+
     }
 
+    /** Force reload Flights */
     refreshFlights() {
         this.flights$ = this.getFlightsRequest().pipe(
             shareReplay(CACHE_SIZE)
@@ -54,16 +56,11 @@ export class SkylegsService {
     private getFlightsRequest() {
         let params: HttpParams = new HttpParams();
 
-
-
         const startstr = this.transformDate(environment.start);
         const endstr = this.transformDate(environment.end);
 
-       
         params = params.append("start", startstr);
-        
         params = params.append("end", endstr);
-        
 
         /** get flights, turn into "Flight objects" */
         return this.http.get<Flight[]>(`${environment.apiUrl}/all`, { params: params }).pipe(
@@ -81,14 +78,16 @@ export class SkylegsService {
     /** Update Radiation Value */
     updateRadiationValue(params) {
 
-        let certificatestr = params.ACFTAIL + params.DEP + params.DEST + params.STD + params.ATCID+params.DOSE;
+        /** Prepare Certificate property */
+        let certificatestr = params.ACFTAIL + params.DEP + params.DEST + params.STD + params.ATCID + params.DOSE;
         let certificate = Md5.hashStr(certificatestr);
-        
-        params.Certificate = certificate;
-        let value = [];
 
-        value.push(params);
-      
-        return this.http.post(`${environment.apiUrl}/store-radiation`, value, {responseType: 'text'});
+        params.Certificate = certificate;
+
+        /** API expects array of values */
+        let payload = [];
+        payload.push(params);
+
+        return this.http.post(`${environment.apiUrl}/store-radiation`, payload, { responseType: 'text' });
     }
 }

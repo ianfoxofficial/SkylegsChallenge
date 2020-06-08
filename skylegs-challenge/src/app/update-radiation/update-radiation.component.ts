@@ -33,8 +33,8 @@ export class UpdateRadiationComponent implements OnInit {
   });
 
 
-  
-  
+
+
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private skylegsService: SkylegsService) {
 
@@ -55,9 +55,9 @@ export class UpdateRadiationComponent implements OnInit {
         this.error = err;
         return throwError(err);
       })).subscribe(data => {
-        this._flight$.next(data)
-        if (data) {
+        this._flight$.next(data);
 
+        if (data) {
           /** Prefill form data */
           this.updateForm.controls['ACFTAIL'].setValue(data.aircraft.registration);
           this.updateForm.controls['DEP'].setValue(data.departure.icao);
@@ -72,7 +72,6 @@ export class UpdateRadiationComponent implements OnInit {
   onSubmit() {
     const values = this.updateForm.value;
     this.error = '';
-
 
     this.success$ = this.skylegsService.updateRadiationValue(values).pipe(
       share(),

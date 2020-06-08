@@ -11,7 +11,6 @@ export class UserAgenda{
         Object.assign(this, init);
 
         if(init.user) {
-
             this.user = new User(init.user);
         }
     }

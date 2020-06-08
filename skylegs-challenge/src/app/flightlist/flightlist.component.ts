@@ -17,6 +17,7 @@ export class FlightlistComponent implements OnInit {
 
 
   constructor(private skylegsService: SkylegsService) {  }
+  
   ngOnInit(): void {
     this.refresh();
   }
@@ -29,7 +30,6 @@ export class FlightlistComponent implements OnInit {
     this.flights = null;
     this.flights = this.skylegsService.getFlights(forceRefresh).pipe(
       catchError(err => {
-        
         this.error = err;
         return throwError(err);
       }));

@@ -10,15 +10,12 @@ export class Flight {
     aircraft: Aircraft;
     mission: Mission;
     mission_id: number;
-
     actual_flight_time: string;
     actual_block_time: string;
-
     actual_fuel_end: number;
     actual_fuel_start: number;
     actual_fuel_uplift: number;
     actual_fuel_uplift_before: number;
-
     actual_ibt: string;
     actual_ldt: string;
     actual_obt: string;
@@ -30,32 +27,21 @@ export class Flight {
     tot: string;
     created_at: string;
     updated_at: string;
-
-
     block_fuel: Number;
     block_time: string;
     client_pdf_url: string;
-
     crew_string: string;
-
-
     empty_leg: boolean;
     flight_time: string;
     hash: string;
-
-
     number: number;
-
     pax: number;
     remarks: string;
     shared_leg: boolean;
-
     userAgendas = [];
-
-
+	
     constructor(init?) {
         Object.assign(this, init);
-
         /** convert returned plain objects int Flight object. */
         if (init) {
             if (init.aircraft) {
@@ -70,10 +56,8 @@ export class Flight {
             if (init.mission) {
                 this.mission = new Mission(init.mission);
             }
-
             if(init.userAgendas) {
                 this.userAgendas = [];
-
                 init.userAgendas.forEach(userAgenda$ => {
                     let userAgenda = new UserAgenda(userAgenda$);
                     this.userAgendas.push(userAgenda);
@@ -82,4 +66,3 @@ export class Flight {
         }
     }
 }
-
