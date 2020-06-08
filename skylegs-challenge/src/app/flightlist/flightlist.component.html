@@ -13,15 +13,19 @@
                 <tr>
                     <th scope="col">Aircraft</th>
                     <th scope="col">Departure</th>
-                    <th scope="col">arrival</th>
+                    <th scope="col">Arrival</th>
+                    <th scope="col" title="Off Blocks Time">OBT</th>
+                    <th scope="col" title="In Blocks Time">IBT</th>
                     <th scope="col">Actual Flight time</th>
+                    <th scope="col" title="Persons approximately">PAX</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let flight of flights | async | slice:0:10; let ind=index;">
                     <td>
-                        {{ flight.aircraft.label}}
+                        {{ flight.aircraft.registration}} <div *ngIf="flight.aircraft.variant">
+                            <small>{{ flight.aircraft.variant.label}}</small></div>
                     </td>
                     <td>
 
@@ -33,7 +37,16 @@
 
                     </td>
                     <td>
+                        {{flight.ibt}}
+                    </td>
+                    <td>
+                        {{flight.obt}}
+                    </td>
+                    <td>
                         {{flight.actual_flight_time}}
+                    </td>
+                    <td>
+                        {{ flight.pax }}
                     </td>
                     <td>
                         <a routerLink="/flight/{{flight.id}}">

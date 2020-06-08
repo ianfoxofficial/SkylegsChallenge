@@ -1,53 +1,159 @@
 <div class="row justify-content-center">
     <div class="col col-6">
-        <div class="card ">
-            <div class="card-header">
-                Update radiation
-            </div>
-            <div class="card-body">
-                <form (ngSubmit)="onSubmit()" [formGroup]="updateForm">
-                    <div class="form-group">
-                        <label>FlightLog</label>
-                        <input type="text" class="form-control" formControlName="FlightLog" />
-                    </div>
-                    <div class="form-group">
-                        <label>ACFTAIL</label>
-                        <input type="text" class="form-control" formControlName="ACFTAIL" />
-                    </div>
-                    <div class="form-group">
-                        <label>DEP</label>
-                        <input type="text" class="form-control" formControlName="DEP" />
-                    </div>
-                    <div class="form-group">
-                        <label>DEST</label>
-                        <input type="text" class="form-control" formControlName="DEST" />
-                    </div>
-                    <div class="form-group">
-                        <label>STD</label>
-                        <input type="text" class="form-control" formControlName="STD" />
-                    </div>
-                    <div class="form-group">
-                        <label>STA</label>
-                        <input type="text" class="form-control" formControlName="STA" />
-                    </div>
-                    <div class="form-group">
-                        <label>ATCID</label>
-                        <input type="text" class="form-control" formControlName="ATCID" />
-                    </div>
-                    <div class="form-group">
-                        <label>DOSE</label>
-                        <input type="text" class="form-control" formControlName="DOSE" />
-                    </div>
-                    <div class="form-group">
-                        <button class="button" type="submit" class="btn btn-primary">Update radiation</button>
-                    </div>
+        <div class="mb-3">
+            <a routerLink="/" class="btn btn-primary">Flight list</a>
+        </div>
+        <div *ngIf="_flight$ | async as flight else loading">
+            <div class="card mb-3">
 
-                </form>
+                <div class="card-header">
+                    Flight details
+                </div>
 
-                <div *ngIf="error" class="alert alert-danger">
-                    <div><strong>Error:</strong> {{error }}</div>
+                <div class="card-body">
+                    
+                    <div class="mb-4">
+                        
+                            <h4>Aircraft</h4>
+                            <img src="{{flight.aircraft.profile_picture_url}}" alt="{{flight.aircraft.variant.label}}" />
+                            <div class="row">
+                                <div class="col-3">
+                                    <strong>Label</strong>
+                                </div>
+                                <div class="col">
+                                    {{ flight.aircraft.label }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <strong>Variant</strong>
+                                </div>
+                                <div class="col">
+                                    {{ flight.aircraft.variant.label }}
+                                </div>
+                            </div>
+                      
+                        
+
+                           
+                        
+
+
+
+                    </div>
+                    <div class="mb-4">
+
+
+
+                        <h4>Departure</h4>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Airport</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.departure.label}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong title="Off Blocks Time">OBT</strong>
+                            </div>
+                            <div class="col">
+
+                                {{flight.obt}}
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong title="Take Off Time">TOT</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.tot}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4>Arrival</h4>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Airport</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.arrival.label}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong title="Landing Time">LDT</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.ldt}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong title="In Blocks Time">IBT</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.ibt}}
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                    <div class="mb-4">
+                        <div class="row" *ngIf="flight.pax">
+                            <div class="col-3">
+                                <strong title="Persons approximately">PAX</strong>
+                            </div>
+                            <div class="col">
+                                {{flight.pax}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="error" class="alert alert-danger">
+                        <div><strong>Error:</strong> {{error }}</div>
+                    </div>
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Update radiation
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="onSubmit()" [formGroup]="updateForm" class="mb-3">
+                        <div class="form-group">
+                            <label>Dose</label>
+                            <input type="text" class="form-control" formControlName="DOSE" />
+
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
+                    <div *ngIf="success$ | async as success" class="alert alert-success">
+                        <div><strong>Radiation updated. </strong><br />
+                            Server message: {{ success }}</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
+        <ng-template #loading>
+            <div *ngIf="!error" class="alert alert-info">
+                <div>Flight loading...</div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger">
+                <div><strong>Error loading flight:</strong> {{error }}</div>
+            </div>
+        </ng-template>
+
+
     </div>
-</div>

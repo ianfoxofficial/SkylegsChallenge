@@ -7,7 +7,6 @@ export class Flight {
     id: number;
     departure: Airport;
     arrival: Airport;
-    label: string;
     aircraft: Aircraft;
     mission: Mission;
     mission_id: number;
@@ -20,17 +19,17 @@ export class Flight {
     actual_fuel_uplift: number;
     actual_fuel_uplift_before: number;
 
-    actual_ibt: Date;
-    actual_ldt: Date;
-    actual_obt: Date;
-    actual_tot: Date;
-    date: Date;
-    ibt: Date;
-    ldt: Date;
-    obt: Date;
-    tot: Date;
-    created_at: Date;
-    updated_at: Date;
+    actual_ibt: string;
+    actual_ldt: string;
+    actual_obt: string;
+    actual_tot: string;
+    date: string;
+    ibt: string;
+    ldt: string;
+    obt: string;
+    tot: string;
+    created_at: string;
+    updated_at: string;
 
 
     block_fuel: Number;
@@ -70,26 +69,6 @@ export class Flight {
             }
             if (init.mission) {
                 this.mission = new Mission(init.mission);
-            }
-
-            for (let [key, value] of Object.entries(init)) {
-                switch (key) {
-                    case "actual_ibt":
-                    case "actual_ldt":
-                    case "actual_obt":
-                    case "actual_tot":
-                    case "date":
-                    case "ibt":
-                    case "ldt":
-                    case "obt":
-                    case "tot":
-                    case "created_at":
-                    case "updated_at":
-                        if (value) {
-                            this[key] = new Date(String(value));
-                        }
-                        break;
-                }
             }
 
             if(init.userAgendas) {

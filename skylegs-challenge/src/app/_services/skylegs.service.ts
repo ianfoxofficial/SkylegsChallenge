@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import { DatePipe } from '@angular/common';
@@ -83,12 +83,12 @@ export class SkylegsService {
 
         let certificatestr = params.ACFTAIL + params.DEP + params.DEST + params.STD + params.ATCID+params.DOSE;
         let certificate = Md5.hashStr(certificatestr);
-
+        
         params.Certificate = certificate;
         let value = [];
 
         value.push(params);
-
-        return this.http.post(`${environment.apiUrl}/store-radiation`, value);
+      
+        return this.http.post(`${environment.apiUrl}/store-radiation`, value, {responseType: 'text'});
     }
 }
